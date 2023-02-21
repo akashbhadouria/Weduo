@@ -30,9 +30,9 @@ const Head = () => {
       <div className="m-4 col-span-10 ml-36">
         <input
           type="text"
-          className="w-1/2 border-2 border-solid border-gray-700 p-2 rounded-l-full -mt-4 "
+          className="w-1/2 border-2 border-solid border-gray-700 p-2 rounded-l-full -mt-4 pl-4"
         />
-        <button className="border border-gray-700 p-2 rounded-r-full bg-gray-200">
+        <button className="border border-gray-700 p-2 rounded-r-full bg-gray-200 cursor-pointer hover:bg-black hover:text-green-500">
           Search 🔍
         </button>
       </div>
