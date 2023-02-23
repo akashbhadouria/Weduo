@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { useSelector } from "react-redux";
+import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
   const dispatch = useDispatch();
@@ -10,10 +12,18 @@ const Head = () => {
   };
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const searchCache = useSelector((store) => store.search);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      getVideosSuggestions();
+      if (searchCache[searchQuery]) {
+        setSuggestions(searchCache[searchQuery]);
+      } else {
+        getVideosSuggestions();
+      }
     }, 200);
 
     return () => {
@@ -25,7 +35,14 @@ const Head = () => {
   const getVideosSuggestions = async () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
-    // console.log(searchQuery);
+    setSuggestions(json[1]);
+
+    // update cache using dispatch function from searchSlice
+    dispatch(
+      cacheResults({
+        [searchQuery]: json[1],
+      })
+    );
   };
 
   return (
@@ -53,39 +70,28 @@ const Head = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setShowSuggestions(false)}
             className="w-1/2 border-2 border-solid border-gray-700 p-2 rounded-l-full -mt-4 pl-4"
           />
           <button className="border border-gray-700 p-2 px-5 rounded-r-full bg-gray-200 cursor-pointer hover:bg-black hover:text-green-500">
             Search 🔍
           </button>
         </div>
-        <div className="fixed bg-white py-2 px-5 w-[27rem] rounded-lg shadow-xl border border-gray-100 ">
-          <ul>
-            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
-              🔍 asdasd
-            </li>
-            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
-              {" "}
-              🔍 asdasd
-            </li>
-            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
-              {" "}
-              🔍 asdasd
-            </li>
-            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
-              {" "}
-              🔍 asdasd
-            </li>
-            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
-              {" "}
-              🔍 asdasd
-            </li>
-            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
-              {" "}
-              🔍 asdasd
-            </li>
-          </ul>
-        </div>
+        {showSuggestions && (
+          <div className="fixed bg-white py-2 px-5 w-[27rem] rounded-lg shadow-xl border border-gray-100 ">
+            <ul>
+              {suggestions.map((suggest) => (
+                <li
+                  key={suggest}
+                  className="py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1"
+                >
+                  🔍 {suggest}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <div className="col-span-1">
         <img
