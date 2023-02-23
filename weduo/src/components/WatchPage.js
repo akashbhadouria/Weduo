@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { closeMenu } from "../utils/appSlice";
 import Body from "./Body";
+import CommentContainer from "./CommentContainer";
 
 const WatchPage = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const WatchPage = () => {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
       ></iframe>
+      <CommentContainer />
     </div>
   );
 };
