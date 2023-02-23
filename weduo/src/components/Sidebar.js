@@ -7,7 +7,7 @@ const Sidebar = () => {
   // Early Return
   if (!isMenuOpen) return null;
   return (
-    <div className="w-56 p-5 shadow-lg mt-2">
+    <div className="w-64 p-5 shadow-lg mt-2">
       <h1 className="font-bold">Menu</h1>
       <ul>
         <li className="cursor-pointer hover:bg-black hover:text-green-500 hover:py-2 px-2 scroll hover:inline-block hover:rounded-md">
