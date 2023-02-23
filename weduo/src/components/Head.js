@@ -1,11 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
+import { YOUTUBE_SEARCH_API } from "../utils/constants";
 
 const Head = () => {
   const dispatch = useDispatch();
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
+  };
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      getVideosSuggestions();
+    }, 200);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchQuery]);
+
+  // Search for videos suggestion
+  const getVideosSuggestions = async () => {
+    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+    const json = await data.json();
+    // console.log(searchQuery);
   };
 
   return (
@@ -28,13 +48,44 @@ const Head = () => {
         </a>
       </div>
       <div className="m-4 col-span-10 ml-36">
-        <input
-          type="text"
-          className="w-1/2 border-2 border-solid border-gray-700 p-2 rounded-l-full -mt-4 pl-4"
-        />
-        <button className="border border-gray-700 p-2 rounded-r-full bg-gray-200 cursor-pointer hover:bg-black hover:text-green-500">
-          Search 🔍
-        </button>
+        <div>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-1/2 border-2 border-solid border-gray-700 p-2 rounded-l-full -mt-4 pl-4"
+          />
+          <button className="border border-gray-700 p-2 px-5 rounded-r-full bg-gray-200 cursor-pointer hover:bg-black hover:text-green-500">
+            Search 🔍
+          </button>
+        </div>
+        <div className="fixed bg-white py-2 px-5 w-[27rem] rounded-lg shadow-xl border border-gray-100 ">
+          <ul>
+            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
+              🔍 asdasd
+            </li>
+            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
+              {" "}
+              🔍 asdasd
+            </li>
+            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
+              {" "}
+              🔍 asdasd
+            </li>
+            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
+              {" "}
+              🔍 asdasd
+            </li>
+            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
+              {" "}
+              🔍 asdasd
+            </li>
+            <li className=" py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1">
+              {" "}
+              🔍 asdasd
+            </li>
+          </ul>
+        </div>
       </div>
       <div className="col-span-1">
         <img
