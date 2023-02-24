@@ -4,6 +4,7 @@ import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { useSelector } from "react-redux";
 import { cacheResults } from "../utils/searchSlice";
+import { Link } from "react-router-dom";
 
 const Head = () => {
   const dispatch = useDispatch();
@@ -82,12 +83,12 @@ const Head = () => {
           <div className="fixed bg-white py-2 px-5 w-[27rem] rounded-lg shadow-xl border border-gray-100 ">
             <ul>
               {suggestions.map((suggest) => (
-                <li
-                  key={suggest}
-                  className="py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1"
-                >
-                  🔍 {suggest}
-                </li>
+                  <li
+                    key={suggest}
+                    className="py-2 m-1 shadow-sm cursor-pointer hover:bg-gray-100 px-1"
+                  >
+                    🔍 {suggest}
+                  </li>
               ))}
             </ul>
           </div>
