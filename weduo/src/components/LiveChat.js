@@ -39,7 +39,7 @@ const LiveChat = () => {
         </div>
       </div>
       <form
-        className="rounded-lg bg-slate-100 p-2 ml-2 -mt-2 w-full p-2 border border-black"
+        className="rounded-lg bg-slate-100 p-2 ml-2 -mt-2 w-full border border-black"
         onSubmit={(e) => {
           e.preventDefault();
           dispatch(
